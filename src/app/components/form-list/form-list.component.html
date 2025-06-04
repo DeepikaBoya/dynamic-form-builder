@@ -1,0 +1,48 @@
+<div class="form-list-container">
+  <div class="form-list-header">
+    <h1>Form Templates</h1>
+    <button *ngIf="isAdmin" routerLink="/forms/create" class="btn btn-primary">Create New Form</button>
+  </div>
+
+  <div class="form-list-content">
+    <div *ngIf="formTemplates.length === 0" class="empty-list-message">
+      <p>No form templates available.</p>
+      <button *ngIf="isAdmin" routerLink="/forms/create" class="btn btn-primary">Create Your First Form</button>
+    </div>
+
+    <div *ngIf="formTemplates.length > 0" class="form-cards">
+      <div *ngFor="let template of formTemplates" class="form-card" [routerLink]="['/forms', template.id, 'fill']">
+        <div class="form-card-header">
+          <h3>{{ template.name }}</h3>
+          <div class="form-card-actions" *ngIf="isAdmin">
+            <button [routerLink]="['/forms', template.id, 'edit']" class="btn btn-sm btn-outline" (click)="$event.stopPropagation()">
+              Edit
+            </button>
+            <button (click)="deleteForm(template.id, $event)" class="btn btn-sm btn-danger">
+              Delete
+            </button>
+          </div>
+        </div>
+        
+        <div class="form-card-body">
+          <p *ngIf="template.description">{{ template.description }}</p>
+          <p *ngIf="!template.description" class="no-description">No description provided</p>
+          
+          <div class="form-card-meta">
+            <span>{{ template.fields.length }} fields</span>
+            <span>Created: {{ formatDate(template.createdAt) }}</span>
+          </div>
+        </div>
+        
+        <div class="form-card-footer">
+          <button [routerLink]="['/forms', template.id, 'fill']" class="btn btn-sm btn-primary" (click)="$event.stopPropagation()">
+            Fill Form
+          </button>
+          <button *ngIf="isAdmin" [routerLink]="['/forms', template.id, 'submissions']" class="btn btn-sm btn-outline" (click)="$event.stopPropagation()">
+            View Submissions
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

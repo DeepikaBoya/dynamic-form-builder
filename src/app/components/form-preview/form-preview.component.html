@@ -1,0 +1,39 @@
+<div class="form-preview-container">
+  <div class="form-preview-header">
+    <button routerLink="/forms" class="btn btn-link">← Back to Forms</button>
+    <h1>Form Submissions: {{ formTemplate?.name }}</h1>
+  </div>
+
+  <div class="form-preview-content">
+    <div *ngIf="formSubmissions.length === 0" class="empty-submissions">
+      <p>No submissions yet for this form.</p>
+      <button [routerLink]="['/forms', formTemplate?.id, 'fill']" class="btn btn-primary">Fill Out Form</button>
+    </div>
+
+    <div *ngIf="formSubmissions.length > 0" class="submissions-list">
+      <div *ngFor="let submission of formSubmissions" class="submission-card">
+        <div class="submission-header">
+          <h3>Submission</h3>
+          <span class="submission-date">{{ formatDate(submission.submittedAt) }}</span>
+        </div>
+        
+        <div class="submission-body">
+          <table class="submission-table">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let field of formTemplate?.fields">
+                <td>{{ field.label }}</td>
+                <td>{{ getFieldValue(submission, field.id) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

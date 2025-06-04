@@ -1,27 +1,100 @@
-# DynamicFormBuilder
+# Dynamic Form Builder
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+A dynamic form builder application built with Angular that allows users to create, manage, and submit forms with different field types and validation rules.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Form Builder Interface**: Drag-and-drop interface for building forms with various field types
+  - Text input (single-line and multi-line)
+  - Dropdown select (with configurable options)
+  - Checkbox groups
+  - Date picker
+  - Radio button groups
+  - Configurable field properties (label, required/optional, help text, validation)
 
-## Code scaffolding
+- **Form Management**:
+  - List view of created form templates
+  - Edit existing templates
+  - Preview mode to test forms
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Form Submission**:
+  - Form filling interface for end-users
+  - Validation based on configured rules
+  - Submission to a mock API
+  - Success/error handling
+  - View submitted form data
 
-## Build
+- **Authorization**:
+  - Two user roles: Admin and User
+  - Admin: Can create, edit, and delete form templates
+  - User: Can only view and fill out forms
+  - Authorization check on all relevant actions
+  - Login screen with role selection
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Technical Implementation
 
-## Running unit tests
+- Angular 18 with TypeScript
+- Reactive Forms for form handling
+- Local storage for data persistence (mock API)
+- Drag and drop functionality using Angular CDK
+- Responsive design
+- Role-based authorization
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Getting Started
 
-## Running end-to-end tests
+### Prerequisites
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Node.js (v18.19.1 or higher)
+- npm (v8.0.0 or higher)
+- Angular CLI (v18.2.0 or higher)
 
-## Further help
+### Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/dynamic-form-builder.git
+cd dynamic-form-builder
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Run the development server
+```bash
+ng serve
+```
+
+4. Navigate to `http://localhost:4200/` in your browser
+
+## Usage
+
+1. **Login**: Select a role (Admin or User) and enter a username
+2. **Create Forms** (Admin only): Click "Create New Form" to build a form using the drag-and-drop interface
+3. **Fill Forms**: Select a form from the list and fill it out
+4. **View Submissions** (Admin only): See all submissions for a specific form
+
+## Project Structure
+
+- `src/app/components/`: Angular components
+- `src/app/services/`: Services for authentication and form management
+- `src/app/models/`: TypeScript interfaces and types
+- `src/app/auth/`: Authentication guards and services
+- `src/app/store/`: State management (NgRx)
+
+## Testing
+
+Run unit tests with:
+```bash
+ng test
+```
+
+## Future Improvements
+
+- Backend integration with a real API
+- More field types (file upload, signature, etc.)
+- Form templates and themes
+- Advanced validation rules
+- User management system
+- Form analytics and reporting

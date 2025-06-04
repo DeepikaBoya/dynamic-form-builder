@@ -1,0 +1,116 @@
+<div class="form-submission-container">
+  <div class="form-submission-header">
+    <button (click)="goBack()" class="btn btn-link">← Back to Forms</button>
+    <h1>{{ isPreviewMode ? 'Form Preview' : formTemplate?.name }}</h1>
+    <p *ngIf="formTemplate?.description" class="form-description">{{ formTemplate?.description }}</p>
+  </div>
+
+  <div *ngIf="submitSuccess" class="submission-success">
+    <div class="success-content">
+      <h2>Form Submitted Successfully!</h2>
+      <p>Thank you for your submission.</p>
+      <div class="success-actions">
+        <button (click)="resetForm()" class="btn btn-primary">Submit Another Response</button>
+        <button (click)="goBack()" class="btn btn-outline">Back to Forms</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="submitError" class="submission-error">
+    <div class="error-content">
+      <h2>Submission Failed</h2>
+      <p>There was an error submitting your form. Please try again.</p>
+      <button (click)="submitError = false" class="btn btn-primary">Dismiss</button>
+    </div>
+  </div>
+
+  <div *ngIf="!submitSuccess && !submitError" class="form-submission-content">
+    <form [formGroup]="submissionForm" (ngSubmit)="onSubmit()">
+      <div *ngFor="let field of formTemplate?.fields" class="form-field">
+        <label [for]="field.id">
+          {{ field.label }}
+          <span *ngIf="field.required" class="required-indicator">*</span>
+        </label>
+        
+        <div *ngIf="field.helpText" class="help-text">{{ field.helpText }}</div>
+        
+        <!-- Text Input -->
+        <input 
+          *ngIf="field.type === 'text'" 
+          [type]="'text'" 
+          [id]="field.id" 
+          [formControlName]="field.id"
+          [placeholder]="field.placeholder || ''"
+          class="form-control"
+        >
+        
+        <!-- Textarea -->
+        <textarea 
+          *ngIf="field.type === 'textarea'" 
+          [id]="field.id" 
+          [formControlName]="field.id"
+          [placeholder]="field.placeholder || ''"
+          class="form-control"
+          rows="4"
+        ></textarea>
+        
+        <!-- Dropdown -->
+        <select 
+          *ngIf="field.type === 'dropdown'" 
+          [id]="field.id" 
+          [formControlName]="field.id"
+          class="form-control"
+        >
+          <option value="" disabled selected>{{ field.placeholder || 'Select an option' }}</option>
+          <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+        </select>
+        
+        <!-- Date Picker -->
+        <input 
+          *ngIf="field.type === 'date'" 
+          type="date" 
+          [id]="field.id" 
+          [formControlName]="field.id"
+          class="form-control"
+        >
+        
+        <!-- Checkbox Group -->
+        <div *ngIf="field.type === 'checkbox'" class="checkbox-group">
+          <div *ngFor="let option of field.options" class="checkbox-item">
+            <input 
+              type="checkbox" 
+              [id]="field.id + '-' + option.value" 
+              [value]="option.value"
+              [formControlName]="field.id"
+            >
+            <label [for]="field.id + '-' + option.value">{{ option.label }}</label>
+          </div>
+        </div>
+        
+        <!-- Radio Button Group -->
+        <div *ngIf="field.type === 'radio'" class="radio-group">
+          <div *ngFor="let option of field.options" class="radio-item">
+            <input 
+              type="radio" 
+              [id]="field.id + '-' + option.value" 
+              [value]="option.value"
+              [formControlName]="field.id"
+            >
+            <label [for]="field.id + '-' + option.value">{{ option.label }}</label>
+          </div>
+        </div>
+        
+        <div *ngIf="getFieldErrorMessage(field)" class="error-message">
+          {{ getFieldErrorMessage(field) }}
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" [disabled]="isSubmitting" class="btn btn-primary">
+          {{ isSubmitting ? 'Submitting...' : (isPreviewMode ? 'Test Submit' : 'Submit') }}
+        </button>
+        <button type="button" (click)="resetForm()" class="btn btn-outline">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>

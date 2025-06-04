@@ -1,0 +1,123 @@
+<div class="form-builder-container">
+  <div class="form-builder-header">
+    <h1>{{ isEditMode ? 'Edit Form' : 'Create New Form' }}</h1>
+  </div>
+
+  <div class="form-meta-section">
+    <form [formGroup]="formMetaForm">
+      <div class="form-group">
+        <label for="formName">Form Name</label>
+        <input type="text" id="formName" formControlName="name" class="form-control">
+        <div *ngIf="formMetaForm.get('name')?.invalid && formMetaForm.get('name')?.touched" class="error-message">
+          Form name is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="formDescription">Description (Optional)</label>
+        <textarea id="formDescription" formControlName="description" class="form-control"></textarea>
+      </div>
+    </form>
+  </div>
+
+  <div class="form-builder-content">
+    <div class="form-fields-panel">
+      <h3>Form Fields</h3>
+      
+      <div 
+        cdkDropList 
+        [cdkDropListData]="formFields"
+        (cdkDropListDropped)="onDrop($event)"
+        class="fields-list"
+      >
+        <div *ngFor="let field of formFields; let i = index" class="field-item" cdkDrag>
+          <div class="field-item-content">
+            <div class="field-info">
+              <span class="field-type">{{ field.type | titlecase }}</span>
+              <span class="field-label">{{ field.label }}</span>
+              <span *ngIf="field.required" class="field-required">*</span>
+            </div>
+            <div class="field-actions">
+              <button (click)="editField(i)" class="btn btn-sm btn-outline">Edit</button>
+              <button (click)="removeField(i)" class="btn btn-sm btn-danger">Remove</button>
+            </div>
+          </div>
+        </div>
+        
+        <div *ngIf="formFields.length === 0" class="empty-fields-message">
+          No fields added yet. Use the panel on the right to add form fields.
+        </div>
+      </div>
+    </div>
+    
+    <div class="field-editor-panel">
+      <h3>{{ editingFieldIndex !== null ? 'Edit Field' : 'Add New Field' }}</h3>
+      
+      <form [formGroup]="fieldForm" (ngSubmit)="addField()">
+        <div class="form-group">
+          <label for="fieldType">Field Type</label>
+          <select id="fieldType" formControlName="type" class="form-control" (change)="onFieldTypeChange()">
+            <option *ngFor="let type of fieldTypes" [value]="type.value">{{ type.label }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="fieldLabel">Field Label</label>
+          <input type="text" id="fieldLabel" formControlName="label" class="form-control">
+          <div *ngIf="fieldForm.get('label')?.invalid && fieldForm.get('label')?.touched" class="error-message">
+            Field label is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="fieldPlaceholder">Placeholder (Optional)</label>
+          <input type="text" id="fieldPlaceholder" formControlName="placeholder" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="fieldHelpText">Help Text (Optional)</label>
+          <input type="text" id="fieldHelpText" formControlName="helpText" class="form-control">
+        </div>
+        
+        <div class="form-group form-check">
+          <input type="checkbox" id="fieldRequired" formControlName="required" class="form-check-input">
+          <label for="fieldRequired" class="form-check-label">Required Field</label>
+        </div>
+        
+        <ng-container *ngIf="['dropdown', 'checkbox', 'radio'].includes(fieldForm.get('type')?.value)">
+          <div class="options-section">
+            <div class="options-header">
+              <h4>Options</h4>
+              <button type="button" (click)="addOption()" class="btn btn-sm btn-outline">Add Option</button>
+            </div>
+            
+            <div *ngFor="let option of fieldForm.get('options')?.value; let i = index" class="option-item">
+              <div class="option-content">
+                <span>{{ option.label }}</span>
+                <button type="button" (click)="removeOption(i)" class="btn btn-sm btn-danger">Remove</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        
+        <div class="field-editor-actions">
+          <button type="submit" [disabled]="fieldForm.invalid" class="btn btn-primary">
+            {{ editingFieldIndex !== null ? 'Update Field' : 'Add Field' }}
+          </button>
+          <button *ngIf="editingFieldIndex !== null" type="button" (click)="cancelEdit()" class="btn btn-outline">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="form-builder-footer">
+    <button (click)="saveForm()" [disabled]="formMetaForm.invalid || formFields.length === 0" class="btn btn-success">
+      Save Form
+    </button>
+    <button (click)="previewForm()" [disabled]="formFields.length === 0" class="btn btn-outline">
+      Preview Form
+    </button>
+  </div>
+</div>

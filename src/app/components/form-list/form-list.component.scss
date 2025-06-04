@@ -1,0 +1,143 @@
+.form-list-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  
+  h1 {
+    margin: 0;
+  }
+}
+
+.empty-list-message {
+  text-align: center;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+  }
+}
+
+.form-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.form-card-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+}
+
+.form-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.form-card-body {
+  padding: 1rem;
+  
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .no-description {
+    color: #6c757d;
+    font-style: italic;
+  }
+}
+
+.form-card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.form-card-footer {
+  padding: 1rem;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  
+  &:hover {
+    background-color: #0069d9;
+  }
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #6c757d;
+  
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

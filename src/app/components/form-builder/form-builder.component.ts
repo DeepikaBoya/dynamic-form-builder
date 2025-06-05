@@ -4,14 +4,14 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormService } from '../../services/form.service';
 import { FormField, FormTemplate, FieldType } from '../../models/form-field.model';
-import { CdkDragDrop, moveItemInArray, CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, CdkDrag, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CdkDrag, CdkDropList]
+  imports: [CommonModule, ReactiveFormsModule, DragDropModule]
 })
 export class FormBuilderComponent implements OnInit {
   formMetaForm: FormGroup;
